@@ -5,6 +5,10 @@ import json
 import os
 from pathlib import Path
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from agent import run_agent
 from providers import Provider
@@ -35,7 +39,7 @@ def main():
     parser = argparse.ArgumentParser(description='Chạy agent và chấm eval 0–100')
     choices = ['openai', 'gemini', 'anthropic', 'openrouter']
     parser.add_argument('--provider', choices=choices, default=os.getenv('PROVIDER', 'openai'))
-    parser.add_argument('--model', default=os.getenv('MODEL'))
+    parser.add_argument('--model', default=os.getenv('MODEL') or os.getenv('GEMINI_MODEL'))
     parser.add_argument('--judge-provider', choices=choices, default=os.getenv('JUDGE_PROVIDER'))
     parser.add_argument('--judge-model', default=os.getenv('JUDGE_MODEL'))
     parser.add_argument('--bonus', action='store_true', help='Chạy bộ bonus riêng; không ảnh hưởng điểm chính')
